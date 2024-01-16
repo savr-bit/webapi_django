@@ -30,13 +30,14 @@ INSTALLED_APPS += [
     "rest_framework", 
     "django_filters",
     "corsheaders",
-    "djoser"
+    "djoser",
 ]
 
 # apps
 INSTALLED_APPS += [
     "api", 
     "common",
+    "advertisement",
 ]
 
 #after apps
