@@ -33,7 +33,7 @@ class Advertisement(models.Model):
         User, models.CASCADE, related_name = "projects",
         verbose_name = "Создатель объявления"
     )
-    publish_date = models.TimeField("Дата публикации")
+    publish_date = models.DateField("Дата публикации")
     description = models.TextField("Описание")
     price = models.PositiveIntegerField("Цена")
     category = models.ForeignKey(Category, on_delete = models.CASCADE, default = 1)
@@ -60,9 +60,30 @@ class Attachment(models.Model):
         verbose_name = 'Вложение'
         verbose_name_plural = 'Вложения'
 
+class Review(models.Model):
+    review_text = models.TextField("Текст отзыва")
+    publication = models.ForeignKey(
+        Advertisement, models.CASCADE, related_name = "reviews",
+        verbose_name = "Объявление"
+    )
+    created_by = models.ForeignKey(
+        User, models.CASCADE, related_name = "reviews",
+        verbose_name = "Создатель отзыва"
+    )
 
+    number_of_stars_choices = [
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+        (4, "4"),
+        (5, "5")
+    ]
+    number_of_stars = models.IntegerField("Количество звезд", choices = number_of_stars_choices)
+    publish_date = models.DateField("Дата публикации")
 
-
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
 
 
 
