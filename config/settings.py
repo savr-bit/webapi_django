@@ -17,6 +17,7 @@ ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", default = '').split(' ')
 
 
 # base
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
