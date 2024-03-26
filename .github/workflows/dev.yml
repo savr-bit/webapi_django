@@ -18,5 +18,4 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         script:
           cd ${{ secrets.PATH }}
-          source venv/bin/activate
           
