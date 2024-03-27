@@ -44,7 +44,7 @@ INSTALLED_APPS += [
     "advertisement",
 ]
 
-AUTH_USER_MODEL = 'users.user'
+AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = ('users.models.backends.AuthBackend',)
 
 #after apps

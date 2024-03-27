@@ -5,6 +5,8 @@ from django.utils.html import format_html
 
 from advertisement.models import adv
 
+
+
 #################################
 # INLINES
 #################################
