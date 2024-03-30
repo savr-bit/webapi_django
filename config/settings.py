@@ -45,7 +45,12 @@ INSTALLED_APPS += [
 ]
 
 AUTH_USER_MODEL = 'users.User'
-AUTHENTICATION_BACKENDS = ('users.models.backends.AuthBackend',)
+AUTHENTICATION_BACKENDS = ('users.models.backends.AuthBackend',
+                           )
+
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = 51890072
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'StlmcZxrxocfSp4W3JC'
 
 #after apps
 INSTALLED_APPS += [
@@ -63,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "crum.CurrentRequestUserMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -158,6 +164,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FileUploadParser',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS' : 'common.pagination.BasePagination',
 }
 AUTH_PASSWORD_VALIDATORS = [
     {

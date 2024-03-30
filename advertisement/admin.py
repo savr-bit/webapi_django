@@ -35,6 +35,8 @@ class AdvertisementAdmin(admin.ModelAdmin):
         AttachmentInline,
     )
 
+    readonly_fields = ("created_by", "created_at", "updated_by", "updated_at")
+
 @admin.register(adv.Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("id", "category_description",)
@@ -60,3 +62,5 @@ class ReviewAdmin(admin.ModelAdmin):
             'admin:advertisement_advertisement_change', args=[obj.publication.id]
         )
         return format_html('<a href="{}">{}</a>', link, obj.publication)
+
+    readonly_fields = ("created_by", "created_at", "updated_by", "updated_at")
