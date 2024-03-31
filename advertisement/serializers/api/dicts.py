@@ -25,7 +25,7 @@ class AdvertisementListSerializer(ExtendedModelSerializer):
             'category',
         )
 
-class ReviewListSerializer(ExtendedModelSerializer):
+class ReviewSerializer(ExtendedModelSerializer):
     publication = AdvertisementListSerializer()
     class Meta:
         model = Review

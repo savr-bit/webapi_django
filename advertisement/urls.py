@@ -1,16 +1,18 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from advertisement.views import dicts
+from advertisement.views import advertisements
 
-router = DefaultRouter()
+adv_router = DefaultRouter()
+rev_router = DefaultRouter()
 
-router.register(r'dicts/publications', dicts.AdvertisementView, 'publications')
-router.register(r'dicts/review', dicts.ReviewView,'reviews')
+adv_router.register(r'search', advertisements.AdvertisementsSearchView, 'advertisements')
+# adv_router.register(r'(?P<advertisement_id>\d+)/reviews', dicts.PublicationReviewsView,'reviews')
+adv_router.register(r'manage', advertisements.AdvertisementsView, 'advertisements')
 
 urlpatterns = [
-
 ]
 
 
-urlpatterns += path('advertisement/', include(router.urls)),
+urlpatterns += path('advertisement/', include(adv_router.urls)),
+urlpatterns += path('review/', include(rev_router.urls)),

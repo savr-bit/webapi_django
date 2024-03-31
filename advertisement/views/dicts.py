@@ -4,13 +4,13 @@ from rest_framework.response import Response
 
 import common.pagination
 from advertisement.models.adv import Advertisement, Review
-from advertisement.serializers.api.dicts import AdvertisementListSerializer, ReviewListSerializer
+from advertisement.serializers.api.dicts import AdvertisementListSerializer, ReviewSerializer
 from common.views.mixins import ListViewSet, ExtendedViewSet
 from users.models.users import User
 
 
 @extend_schema_view(
-    list=extend_schema(summary="Список объявлений", tags=["Словари"]),
+    list=extend_schema(summary="Список объявлений", tags=["Объявления"]),
 )
 class AdvertisementView(ListViewSet):
     queryset = Advertisement.objects.all()
@@ -19,13 +19,15 @@ class AdvertisementView(ListViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(summary="Список отзывов пользователя", tags=['Словари'],
-                       parameters=[OpenApiParameter("user",OpenApiTypes.INT)]),
+    list=extend_schema(summary="Список отзывов объявления", tags=['Отзывы'],
+                       parameters=[Open("advertisement_id",OpenApiTypes.INT, OpenApiParameter.PATH)],
+    ),
 )
-class ReviewView(ListViewSet):
-    serializer_class = ReviewListSerializer
+class PublicationReviewsView(ListViewSet):
+    lookup_url_kwarg = 'advertisement_id'
+    serializer_class = ReviewSerializer
     def get_queryset(self):
-        return Review.objects.filter(created_by=self.request.query_params.get("user"))
+        return Review.objects.filter(publication=self.kwargs.get("advertisement_id"))
 
 
 
