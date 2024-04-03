@@ -4,19 +4,17 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from django.db import transaction
 from rest_framework import serializers
-from rest_framework.exceptions import ParseError
-
+from rest_framework.exceptions import ParseError, ValidationError
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from djoser.serializers import UserSerializer as BaseUserSerializer
 from users.serializers.nested.profile import ProfileShortSerializer, \
     ProfileUpdateSerializer
+
 
 User = get_user_model()
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(
-        style={'input_type': 'password'}, write_only=True
-    )
+class RegistrationSerializer(BaseUserCreateSerializer):
 
     class Meta:
         model = User
@@ -28,21 +26,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
             'password',
         )
 
-    def validate_email(self, value):
-        email = value.lower()
-        if User.objects.filter(email=email).exists():
-            raise ParseError(
-                'Пользователь с такой почтой уже зарегистрирован.'
-            )
-        return email
-
-    def validate_password(self, value):
-        validate_password(value)
-        return value
 
     def create(self, validated_data):
-        user = User.objects.create_user(**validated_data)
+        user = super().create(validated_data)
         return user
+
 
 
 class ChangePasswordSerializer(serializers.ModelSerializer):
@@ -73,7 +61,7 @@ class ChangePasswordSerializer(serializers.ModelSerializer):
         return instance
 
 
-class MeSerializer(serializers.ModelSerializer):
+class UserSerializer(BaseUserSerializer):
     profile = ProfileShortSerializer()
 
     class Meta:
@@ -87,7 +75,20 @@ class MeSerializer(serializers.ModelSerializer):
             'username',
             'profile',
             'date_joined',
+            'is_activated'
         )
+
+    def validate(self, attrs):
+        print(123)
+        validate_attrs = super().validate(attrs)
+        user = User.objects.get(pk=validate_attrs['id'])
+
+        if (not user.is_activated):
+            raise ValidationError(
+                "User is not activated"
+            )
+
+        return validate_attrs
 
 
 class MeUpdateSerializer(serializers.ModelSerializer):
@@ -102,8 +103,18 @@ class MeUpdateSerializer(serializers.ModelSerializer):
             'email',
             'phone_number',
             'username',
-            'profile',
-        )
+            'profile',)
+
+    def validate(self, attrs):
+        print(attrs)
+        user = User.objects.get(pk=attrs['id'])
+
+        if (not user.is_activated):
+            raise ValidationError(
+                "User is not activated"
+            )
+
+        return attrs
 
     def update(self, instance, validated_data):
         # Проверка наличия профиля
@@ -124,5 +135,8 @@ class MeUpdateSerializer(serializers.ModelSerializer):
         )
         profile_serializer.is_valid(raise_exception=True)
         profile_serializer.save()
+
+
+
 
 

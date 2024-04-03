@@ -14,6 +14,7 @@ class User(AbstractUser):
     )
     email = models.EmailField("Почта", unique = True, null = True, blank = True)
     phone_number = PhoneNumberField('Телефон', unique = True, null=True)
+    is_activated = models.BooleanField("Аккаунт активирован", default=True, null=False)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ["email"]
@@ -34,5 +35,5 @@ class User(AbstractUser):
 
 @receiver(post_save, sender=User)
 def post_save_user(sender, instance, created, **kwargs):
-    if hasattr(instance, "profile"):
+    if created:
         Profile.objects.create(user=instance)

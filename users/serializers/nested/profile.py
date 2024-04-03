@@ -8,6 +8,7 @@ class ProfileShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
+            'profile_photo',
             'telegram_id',
         )
 
@@ -17,5 +18,6 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = (
+            'profile_photo',
             'telegram_id',
         )

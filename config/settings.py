@@ -6,15 +6,11 @@ root = environ.Path(__file__) - 2
 env = environ.Env()
 environ.Env.read_env(env.str(root(), ".env"))
 
-
 BASE_DIR = root()
-
 
 SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
-ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", default = '').split(' ')
-
-
+ALLOWED_HOSTS = env.str("ALLOWED_HOSTS", default='').split(' ')
 
 # base
 
@@ -29,7 +25,7 @@ INSTALLED_APPS = [
 
 # packages
 INSTALLED_APPS += [
-    "rest_framework", 
+    "rest_framework",
     "django_filters",
     "corsheaders",
     "djoser",
@@ -38,7 +34,7 @@ INSTALLED_APPS += [
 
 # apps
 INSTALLED_APPS += [
-    "api", 
+    "api",
     "common",
     "users",
     "advertisement",
@@ -48,16 +44,10 @@ AUTH_USER_MODEL = 'users.User'
 AUTHENTICATION_BACKENDS = ('users.models.backends.AuthBackend',
                            )
 
-
-SOCIAL_AUTH_VK_OAUTH2_KEY = 51890072
-SOCIAL_AUTH_VK_OAUTH2_SECRET = 'StlmcZxrxocfSp4W3JC'
-
-#after apps
+# after apps
 INSTALLED_APPS += [
     "drf_spectacular"
 ]
-
-
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -91,9 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-
-
-
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.mysql',
@@ -103,26 +90,20 @@ DATABASES = {
         'HOST': env.str("DB_HOST", "localhost"),
         'PORT': env.str("DB_PORT", 5432),
     },
-    "extra" : { 
+    "extra": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     },
 }
 
-
-
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
-
-
-
 
 LANGUAGE_CODE = "en-us"
 
@@ -134,15 +115,9 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-
-
 STATIC_URL = "static/"
 
-
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 ##########################
 # DJANGO REST FRAMEWORK
@@ -164,7 +139,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FileUploadParser',
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_PAGINATION_CLASS' : 'common.pagination.BasePagination',
+    'DEFAULT_PAGINATION_CLASS': 'common.pagination.BasePagination',
 }
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -190,8 +165,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
-
-
 ##########################
 # CORS HEADERS
 ##########################
@@ -207,7 +180,7 @@ CSRF_COOKIE_SECURE = False
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Course project',
-        'DESCRIPTION': 'Course project',
+    'DESCRIPTION': 'Course project',
     'VERSION': '1.0.0',
 
     'SERVE_PERMISSIONS': [
@@ -232,12 +205,30 @@ SPECTACULAR_SETTINGS = {
 # DJOSER
 ##########################
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_HOST_PASSWORD = 'jgdbbbtzspvhbvoq'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'kubanov.sawr@yandex.ru'
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+SERVER_EMAIL = EMAIL_HOST_USER
+EMAIL_ADMIN = EMAIL_HOST_USER
+
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
-    'SERIALIZERS': {},
+    'SEND_ACTIVATION_EMAIL': True,
+    'SERIALIZERS': {
+        "user_create": "users.serializers.api.users.RegistrationSerializer",
+        'user': 'users.serializers.api.users.UserSerializer',
+    },
+    'EMAIL': {
+        'activation': 'core.email.ActivationEmail'
+    }
 }
 
 SIMPLE_JWT = {

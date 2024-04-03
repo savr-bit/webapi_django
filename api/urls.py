@@ -8,6 +8,9 @@ from advertisement.urls import urlpatterns as advertisement_urls
 app_name = 'api'
 
 urlpatterns = [
+    # path('activate/', include('core.urls')),
+    # path('auth/jwt/create/',CustomTokenObtainPairView.as_view(),name='custom_jwt_create'),
+    path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 ]
 
