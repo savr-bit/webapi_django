@@ -29,6 +29,8 @@ class RegistrationSerializer(BaseUserCreateSerializer):
 
     def create(self, validated_data):
         user = super().create(validated_data)
+        user.is_active = True
+        user.save(update_fields=["is_active"])
         return user
 
 
@@ -75,7 +77,6 @@ class UserSerializer(BaseUserSerializer):
             'username',
             'profile',
             'date_joined',
-            'is_activated'
         )
 
     def validate(self, attrs):

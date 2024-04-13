@@ -23,7 +23,9 @@ User = get_user_model()
     create=extend_schema(summary='Регистрация пользователя', tags=['Аутентификация & Авторизация']),
 )
 class RegistrationView(views.UserViewSet):
-    pass
+    def perform_create(self, get_serializer_class, *args, **kwargs):
+        super().perform_create(get_serializer_class, *args, **kwargs)
+
 
 
 

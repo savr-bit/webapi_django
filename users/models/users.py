@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from phonenumber_field.modelfields import PhoneNumberField
+from django.utils.translation import gettext_lazy as _
 
 from users.managers import CustomUserManager
 from users.models.profile import Profile
@@ -14,7 +15,14 @@ class User(AbstractUser):
     )
     email = models.EmailField("Почта", unique = True, null = True, blank = True)
     phone_number = PhoneNumberField('Телефон', unique = True, null=True)
-    is_activated = models.BooleanField("Аккаунт активирован", default=True, null=False)
+    is_active = models.BooleanField(
+        _("active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as active. "
+            "Unselect this instead of deleting accounts."
+        ),
+    )
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ["email"]
