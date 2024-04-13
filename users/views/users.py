@@ -57,6 +57,7 @@ class MeView(RetrieveUpdateAPIView):
     http_method_names = ('get', 'patch')
 
     def get_serializer_class(self):
+        print(self.request.user.email)
         if self.request.method in ['PUT', 'PATCH']:
             return user_s.MeUpdateSerializer
         return user_s.UserSerializer

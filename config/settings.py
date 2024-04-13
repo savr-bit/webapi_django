@@ -61,6 +61,8 @@ MIDDLEWARE = [
     "crum.CurrentRequestUserMiddleware"
 ]
 
+
+
 ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
@@ -255,3 +257,5 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=1),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=7),
 }
+
+
