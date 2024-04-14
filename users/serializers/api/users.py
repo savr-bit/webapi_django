@@ -106,17 +106,6 @@ class MeUpdateSerializer(serializers.ModelSerializer):
             'username',
             'profile',)
 
-    def validate(self, attrs):
-        print(attrs)
-        user = User.objects.get(pk=attrs['id'])
-
-        if (not user.is_activated):
-            raise ValidationError(
-                "User is not activated"
-            )
-
-        return attrs
-
     def update(self, instance, validated_data):
         # Проверка наличия профиля
         profile_data = validated_data.pop('profile') if 'profile' in validated_data else None
