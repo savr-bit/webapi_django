@@ -224,6 +224,9 @@ DJOSER = {
     'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': '#/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
+    'PERMISSIONS' : {
+        "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+    },
     'SERIALIZERS': {
         "user_create": "users.serializers.api.users.RegistrationSerializer",
         'user': 'users.serializers.api.users.UserSerializer',
