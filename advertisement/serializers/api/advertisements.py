@@ -15,9 +15,9 @@ class AdvertisementsSearchListSerializer(ExtendedModelSerializer):
             'name',
             'price',
             'category',
-            'created_by'
+            'created_by',
             'description',
-            'ad_type'
+            'ad_type',
         )
 
 class AdvertisementListSerializer(ExtendedModelSerializer):
