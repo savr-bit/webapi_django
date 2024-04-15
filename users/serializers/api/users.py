@@ -80,7 +80,6 @@ class UserSerializer(BaseUserSerializer):
         )
 
     def validate(self, attrs):
-        print(123)
         validate_attrs = super().validate(attrs)
 
         return validate_attrs
