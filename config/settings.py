@@ -230,7 +230,8 @@ DJOSER = {
     },
     'EMAIL': {
         'activation': 'core.email.ActivationEmail'
-    }
+    },
+    "HIDE_USERS" : False,
 }
 
 SIMPLE_JWT = {
