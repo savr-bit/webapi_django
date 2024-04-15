@@ -82,12 +82,6 @@ class UserSerializer(BaseUserSerializer):
     def validate(self, attrs):
         print(123)
         validate_attrs = super().validate(attrs)
-        user = User.objects.get(pk=validate_attrs['id'])
-
-        if (not user.is_activated):
-            raise ValidationError(
-                "User is not activated"
-            )
 
         return validate_attrs
 
