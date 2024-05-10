@@ -1,1 +1,3 @@
-# webapi_django-
+# webapi_django
+
+Backend часть веб-приложения для размещения и подбора услуг
